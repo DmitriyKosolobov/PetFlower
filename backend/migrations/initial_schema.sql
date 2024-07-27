@@ -17,13 +17,15 @@ create table plant (
     info text not null,
     temperature int not null,
     humidity int not null,
-    light int not null
+    light int not null,
+    moisture int not null
 );
 
 --changeset dmitriykosolobov:3
 --comment: Create Device table
 create table device (
     device_id bigserial primary key,
+    device_key bigint not null unique,
     user_id bigint not null references user_account (user_id) on delete cascade,
     plant_id bigint not null references plant (plant_id),
     battery numeric not null
@@ -38,6 +40,7 @@ create table measure (
     device_id bigint not null references device (device_id) on delete cascade,
     temperature int not null,
     humidity int not null,
-    light int not null
+    light int not null,
+    moisture int not null
 );
 

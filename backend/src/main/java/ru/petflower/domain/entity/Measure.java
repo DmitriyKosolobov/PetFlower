@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.petflower.controller.dto.AddMeasureRequest;
 
 import java.time.OffsetDateTime;
 
@@ -29,4 +30,13 @@ public class Measure {
     private Integer humidity;
 
     private Integer light;
+
+    private Integer moisture;
+
+    public Measure(AddMeasureRequest addMeasureRequest){
+        this.temperature = addMeasureRequest.temperature();
+        this.humidity = addMeasureRequest.humidity();
+        this.light = addMeasureRequest.light();
+        this.moisture = addMeasureRequest.moisture();
+    }
 }

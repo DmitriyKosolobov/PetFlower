@@ -30,6 +30,8 @@ public class Plant {
 
     private Integer light;
 
+    private Integer moisture;
+
     @OneToMany(mappedBy = "plant")
     private List<Device> devices = new ArrayList<>();
 

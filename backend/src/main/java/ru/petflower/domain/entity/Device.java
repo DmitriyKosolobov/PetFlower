@@ -20,6 +20,9 @@ public class Device {
     @Column(name = "device_id")
     private Long id;
 
+    @Column(name = "device_key")
+    private Long key;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;
@@ -32,6 +35,11 @@ public class Device {
 
     @OneToMany(mappedBy = "device")
     private List<Measure> measures = new ArrayList<>();
+
+    public Device(Long key) {
+        this.key = key;
+        this.battery = 100.0;
+    }
 
     public void addMeasure(Measure measure) {
         this.measures.add(measure);
