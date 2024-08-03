@@ -35,6 +35,16 @@ public class Plant {
     @OneToMany(mappedBy = "plant")
     private List<Device> devices = new ArrayList<>();
 
+    public Plant(String name, String info, Integer temperature,
+                 Integer humidity, Integer light, Integer moisture) {
+        this.name = name;
+        this.info = info;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.light = light;
+        this.moisture = moisture;
+    }
+
     public void addDevice(Device device) {
         this.devices.add(device);
         device.setPlant(this);

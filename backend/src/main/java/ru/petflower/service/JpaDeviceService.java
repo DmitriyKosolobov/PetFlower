@@ -51,7 +51,7 @@ public class JpaDeviceService implements DeviceService{
             Measure measure = new Measure(addMeasureRequest);
             device.addMeasure(measure);
 
-            jpaDeviceRepository.save(device); //проверить может излишне
+            //jpaDeviceRepository.save(device); //излишне
             jpaMeasureRepository.save(measure);
         }
     }
@@ -85,8 +85,8 @@ public class JpaDeviceService implements DeviceService{
         plant.addDevice(device);
 
         jpaDeviceRepository.save(device);
-        jpaUserAccountRepository.save(userAccount); //проверить может излишне
-        jpaPlantRepository.save(plant); //проверить может излишне
+        //jpaUserAccountRepository.save(userAccount); //излишне
+        //jpaPlantRepository.save(plant); //излишне
     }
 
     @Override

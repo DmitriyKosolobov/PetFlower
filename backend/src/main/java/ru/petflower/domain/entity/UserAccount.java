@@ -29,6 +29,12 @@ public class UserAccount {
     @OneToMany(mappedBy = "userAccount")
     private List<Device> devices = new ArrayList<>();
 
+    public UserAccount(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public void addDevice(Device device) {
         this.devices.add(device);
         device.setUserAccount(this);
