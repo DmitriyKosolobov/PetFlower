@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: petflower
+  datasource:
+    url: jdbc:postgresql://localhost:5050/petflower
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: false
+
+springdoc.swagger-ui.path: /swagger-ui
