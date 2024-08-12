@@ -22,37 +22,69 @@ public class Plant {
 
     private String name;
 
-    private String info;
+    @Column(name = "max_light_lux")
+    private Integer maxLightLux;
 
-    private Integer temperature;
+    @Column(name = "min_light_lux")
+    private Integer minLightLux;
 
-    private Integer humidity;
+    @Column(name = "max_temp")
+    private Integer maxTemp;
 
-    private Integer light;
+    @Column(name = "min_temp")
+    private Integer minTemp;
 
-    private Integer moisture;
+    @Column(name = "max_env_humid")
+    private Integer maxEnvHumid;
+
+    @Column(name = "min_env_humid")
+    private Integer minEnvHumid;
+
+    @Column(name = "max_soil_moist")
+    private Integer maxSoilMoist;
+
+    @Column(name = "min_soil_moist")
+    private Integer minSoilMoist;
 
     @OneToMany(mappedBy = "plant")
-    private List<Device> devices = new ArrayList<>();
+    private List<Pet> pets = new ArrayList<>();
 
-    public Plant(String name, String info, Integer temperature,
-                 Integer humidity, Integer light, Integer moisture) {
+    @OneToOne(mappedBy = "plant")
+    private PlantInfo plantInfo;
+
+    public Plant(String name,
+                 Integer maxLightLux, Integer minLightLux,
+                 Integer maxTemp, Integer minTemp,
+                 Integer maxEnvHumid, Integer minEnvHumid,
+                 Integer maxSoilMoist, Integer minSoilMoist) {
         this.name = name;
-        this.info = info;
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.light = light;
-        this.moisture = moisture;
+        this.maxLightLux = maxLightLux;
+        this.minLightLux = minLightLux;
+        this.maxTemp = maxTemp;
+        this.minTemp = minTemp;
+        this.maxEnvHumid = maxEnvHumid;
+        this.minEnvHumid = minEnvHumid;
+        this.maxSoilMoist = maxSoilMoist;
+        this.minSoilMoist = minSoilMoist;
     }
 
-    public void addDevice(Device device) {
-        this.devices.add(device);
-        device.setPlant(this);
+    public void addPet(Pet pet) {
+        this.pets.add(pet);
+        pet.setPlant(this);
     }
 
-    public void removeDevice(Device device) {
-        this.devices.remove(device);
-        device.setPlant(null);
+    public void removePet(Pet pet) {
+        this.pets.remove(pet);
+        pet.setPlant(null);
     }
 
+    public void addPlantInfo(PlantInfo plantInfo) {
+        this.plantInfo = plantInfo;
+        plantInfo.setPlant(this);
+    }
+
+    public void removePlantInfo(PlantInfo plantInfo) {
+        this.plantInfo = null;
+        plantInfo.setPlant(null);
+    }
 }
