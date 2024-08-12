@@ -27,7 +27,10 @@ public class UserAccount {
     private String password;
 
     @OneToMany(mappedBy = "userAccount")
-    private List<Device> devices = new ArrayList<>();
+    private List<Pet> pets = new ArrayList<>();
+
+    @OneToOne(mappedBy = "userAccount")
+    private UserAccountInfo userAccountInfo;
 
     public UserAccount(String username, String email, String password) {
         this.username = username;
@@ -35,14 +38,24 @@ public class UserAccount {
         this.password = password;
     }
 
-    public void addDevice(Device device) {
-        this.devices.add(device);
-        device.setUserAccount(this);
+    public void addPet(Pet pet) {
+        this.pets.add(pet);
+        pet.setUserAccount(this);
     }
 
-    public void removeDevice(Device device) {
-        this.devices.remove(device);
-        device.setPlant(null);
+    public void removePet(Pet pet) {
+        this.pets.remove(pet);
+        pet.setUserAccount(null);
+    }
+
+    public void addUserAccountInfo(UserAccountInfo userAccountInfo) {
+        this.userAccountInfo = userAccountInfo;
+        userAccountInfo.setUserAccount(this);
+    }
+
+    public void removeUserAccountInfo(UserAccountInfo userAccountInfo) {
+        this.userAccountInfo = null;
+        userAccountInfo.setUserAccount(null);
     }
 
 }

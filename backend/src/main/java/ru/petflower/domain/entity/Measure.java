@@ -25,18 +25,25 @@ public class Measure {
     @JoinColumn(name = "device_id")
     private Device device;
 
-    private Integer temperature;
+    private Integer temp;
 
-    private Integer humidity;
+    @Column(name = "env_humid")
+    private Integer envHumid;
 
-    private Integer light;
+    @Column(name = "light_lux")
+    private Integer lightLux;
 
-    private Integer moisture;
+    @Column(name = "soil_moist")
+    private Integer soilMoist;
+
+    @Column(name = "battery_level")
+    private Double batteryLevel;
 
     public Measure(AddMeasureRequest addMeasureRequest){
-        this.temperature = addMeasureRequest.temperature();
-        this.humidity = addMeasureRequest.humidity();
-        this.light = addMeasureRequest.light();
-        this.moisture = addMeasureRequest.moisture();
+        this.temp = addMeasureRequest.temperature();
+        this.envHumid = addMeasureRequest.humidity();
+        this.lightLux = addMeasureRequest.light();
+        this.soilMoist = addMeasureRequest.moisture();
+        this.batteryLevel = addMeasureRequest.battery();
     }
 }

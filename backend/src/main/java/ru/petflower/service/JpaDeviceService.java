@@ -2,7 +2,6 @@ package ru.petflower.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.petflower.controller.dto.AddDeviceRequest;
 import ru.petflower.controller.dto.AddMeasureRequest;
 import ru.petflower.domain.JpaDeviceRepository;
 import ru.petflower.domain.JpaMeasureRepository;
@@ -46,8 +45,6 @@ public class JpaDeviceService implements DeviceService{
             throw new NotFoundDeviceException();
         } else {
             Device device = optionalDevice.get();
-            device.setBattery(addMeasureRequest.battery());
-
             Measure measure = new Measure(addMeasureRequest);
             device.addMeasure(measure);
 
@@ -56,52 +53,52 @@ public class JpaDeviceService implements DeviceService{
         }
     }
 
-    @Override
-    @Transactional
-    public void register(AddDeviceRequest addDeviceRequest) {
-        //проверить что устройство не зарегестрировано
-        //проверить что пользователь зарегестрирован
-        //проверить что растение такое существует
-        Optional<Device> optionalDevice = jpaDeviceRepository.findByKey(addDeviceRequest.key());
-        if(optionalDevice.isPresent()) {
-            throw new ExistDeviceException();
-        }
-
-        Optional<UserAccount> optionalUserAccount = jpaUserAccountRepository.findByUsername(addDeviceRequest.username());
-        if(optionalUserAccount.isEmpty()) {
-            throw new NotFoundUserException();
-        }
-
-        Optional<Plant> optionalPlant = jpaPlantRepository.findByName(addDeviceRequest.plantName());
-        if(optionalPlant.isEmpty()) {
-            throw new NotFoundPlantException();
-        }
-
-        UserAccount userAccount = optionalUserAccount.get();
-        Plant plant = optionalPlant.get();
-
-        Device device = new Device(addDeviceRequest.key());
-        userAccount.addDevice(device);
-        plant.addDevice(device);
-
-        jpaDeviceRepository.save(device);
-        //jpaUserAccountRepository.save(userAccount); //излишне
-        //jpaPlantRepository.save(plant); //излишне
-    }
-
-    @Override
-    @Transactional
-    public void unregister(Long key) {
-        //проверить что зарегестрировано устройство
-        Optional<Device> optionalDevice = jpaDeviceRepository.findByKey(key);
-        if(optionalDevice.isEmpty()) {
-            throw new NotFoundDeviceException();
-        }
-
-        Device device = optionalDevice.get();
-        device.getPlant().removeDevice(device);
-        device.getUserAccount().removeDevice(device);
-
-        jpaDeviceRepository.delete(device);
-    }
+//    @Override
+//    @Transactional
+//    public void register(AddDeviceRequest addDeviceRequest) {
+//        //проверить что устройство не зарегестрировано
+//        //проверить что пользователь зарегестрирован
+//        //проверить что растение такое существует
+//        Optional<Device> optionalDevice = jpaDeviceRepository.findByKey(addDeviceRequest.key());
+//        if(optionalDevice.isPresent()) {
+//            throw new ExistDeviceException();
+//        }
+//
+//        Optional<UserAccount> optionalUserAccount = jpaUserAccountRepository.findByUsername(addDeviceRequest.username());
+//        if(optionalUserAccount.isEmpty()) {
+//            throw new NotFoundUserException();
+//        }
+//
+//        Optional<Plant> optionalPlant = jpaPlantRepository.findByName(addDeviceRequest.plantName());
+//        if(optionalPlant.isEmpty()) {
+//            throw new NotFoundPlantException();
+//        }
+//
+//        UserAccount userAccount = optionalUserAccount.get();
+//        Plant plant = optionalPlant.get();
+//
+//        Device device = new Device(addDeviceRequest.key());
+//        userAccount.addDevice(device);
+//        plant.addDevice(device);
+//
+//        jpaDeviceRepository.save(device);
+//        //jpaUserAccountRepository.save(userAccount); //излишне
+//        //jpaPlantRepository.save(plant); //излишне
+//    }
+//
+//    @Override
+//    @Transactional
+//    public void unregister(Long key) {
+//        //проверить что зарегестрировано устройство
+//        Optional<Device> optionalDevice = jpaDeviceRepository.findByKey(key);
+//        if(optionalDevice.isEmpty()) {
+//            throw new NotFoundDeviceException();
+//        }
+//
+//        Device device = optionalDevice.get();
+//        device.getPlant().removeDevice(device);
+//        device.getUserAccount().removeDevice(device);
+//
+//        jpaDeviceRepository.delete(device);
+//    }
 }

@@ -23,22 +23,14 @@ public class Device {
     @Column(name = "device_key")
     private Long key;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserAccount userAccount;
-
-    @ManyToOne
-    @JoinColumn(name = "plant_id")
-    private Plant plant;
-
-    private Double battery;
-
     @OneToMany(mappedBy = "device")
     private List<Measure> measures = new ArrayList<>();
 
+    @OneToOne(mappedBy = "device")
+    private Pet pet;
+
     public Device(Long key) {
         this.key = key;
-        this.battery = 100.0;
     }
 
     public void addMeasure(Measure measure) {
@@ -49,6 +41,16 @@ public class Device {
     public void removeMeasure(Measure measure) {
         this.measures.remove(measure);
         measure.setDevice(null);
+    }
+
+    public void addPet(Pet pet) {
+        this.pet = pet;
+        pet.setDevice(this);
+    }
+
+    public void removePet(Pet pet) {
+        this.pet = null;
+        pet.setDevice(null);
     }
 
 }
