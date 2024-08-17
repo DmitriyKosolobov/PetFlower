@@ -1,4 +1,4 @@
-package ru.petflower.service;
+package ru.petflower.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +15,12 @@ import ru.petflower.exception.ExistDeviceException;
 import ru.petflower.exception.NotFoundDeviceException;
 import ru.petflower.exception.NotFoundPlantException;
 import ru.petflower.exception.NotFoundUserException;
+import ru.petflower.service.DeviceService;
 
 import java.util.Optional;
 
 @Service
-public class JpaDeviceService implements DeviceService{
+public class JpaDeviceService implements DeviceService {
 
     private final JpaDeviceRepository jpaDeviceRepository;
     private final JpaMeasureRepository jpaMeasureRepository;
