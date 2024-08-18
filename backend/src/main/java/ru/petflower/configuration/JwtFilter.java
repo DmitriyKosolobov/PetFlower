@@ -1,4 +1,4 @@
-package ru.petflower.jwt;
+package ru.petflower.configuration;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -12,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import ru.petflower.domain.jwt.JwtAuthentication;
+import ru.petflower.util.JwtUtils;
+import ru.petflower.service.jwt.JwtProvider;
 
 import java.io.IOException;
 
@@ -29,8 +32,8 @@ public class JwtFilter extends GenericFilterBean {
             throws IOException, ServletException {
         final String token = getTokenFromRequest((HttpServletRequest) request);
         if (token != null && jwtProvider.validateAccessToken(token)) {
-            Claims claims = jwtProvider.getAccessClaims(token);
-            JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
+            final Claims claims = jwtProvider.getAccessClaims(token);
+            final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
             jwtInfoToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }

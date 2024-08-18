@@ -1,4 +1,4 @@
-package ru.petflower.jwt;
+package ru.petflower.domain.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,10 @@
-package ru.petflower.jwt;
+package ru.petflower.util;
 
 import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import ru.petflower.domain.jwt.JwtAuthentication;
+import ru.petflower.domain.jwt.Role;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
