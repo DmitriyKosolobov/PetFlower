@@ -10,3 +10,8 @@ spring:
     enabled: false
 
 springdoc.swagger-ui.path: /swagger-ui
+
+jwt:
+  secret:
+    access: ${JWT_ACCESS}
+    refresh: ${JWT_REFRESH}

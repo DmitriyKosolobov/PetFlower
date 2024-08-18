@@ -2,13 +2,11 @@ package ru.petflower.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.petflower.controller.dto.ErrorResponse;
-import ru.petflower.exception.ExistDeviceException;
-import ru.petflower.exception.NotFoundDeviceException;
-import ru.petflower.exception.NotFoundPlantException;
-import ru.petflower.exception.NotFoundUserException;
+import ru.petflower.exception.*;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
@@ -35,6 +33,24 @@ public class ControllerExceptionHandler {
     public ResponseEntity<?> notFoundPlantHandler(Exception ex) {
         ErrorResponse errorResponse = createErrorResponse(ex, "Растение не зарегистрировано", HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<?> authExceptionHandler(Exception ex) {
+        ErrorResponse errorResponse = createErrorResponse(ex, "Ошибка аутентификации", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExistUserException.class)
+    public ResponseEntity<?> existUserHandler(Exception ex) {
+        ErrorResponse errorResponse = createErrorResponse(ex, "Пользователь уже зарегистрирован", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> argNotValidHandler(Exception ex) {
+        ErrorResponse errorResponse = createErrorResponse(ex, "Некорректные данные в запросе", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     private ErrorResponse createErrorResponse(Exception ex, String message, HttpStatus httpStatus) {
