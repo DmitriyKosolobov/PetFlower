@@ -1,10 +1,11 @@
-package ru.petflower.service;
+package ru.petflower.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.petflower.domain.JpaUserAccountRepository;
 import ru.petflower.domain.entity.UserAccount;
 import ru.petflower.domain.jwt.Role;
 import ru.petflower.domain.jwt.User;
+import ru.petflower.service.UserAccountService;
 
 import java.util.Collections;
 import java.util.Optional;

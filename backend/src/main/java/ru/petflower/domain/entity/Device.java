@@ -23,6 +23,10 @@ public class Device {
     @Column(name = "device_key")
     private Long key;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserAccount userAccount;
+
     @OneToMany(mappedBy = "device")
     private List<Measure> measures = new ArrayList<>();
 

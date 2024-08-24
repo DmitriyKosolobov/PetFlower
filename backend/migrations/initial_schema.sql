@@ -17,16 +17,6 @@ create table user_info (
 );
 
 --changeset dmitriykosolobov:3
---comment: Create Pet table
-create table pet (
-    pet_id bigserial primary key,
-    name varchar(50) not null unique,
-    user_id bigint not null references user_account (user_id) on delete cascade,
-    plant_id bigint null references plant (plant_id),
-    device_id bigint null references device (device_id)
-);
-
---changeset dmitriykosolobov:4
 --comment: Create Plant table
 create table plant (
     plant_id bigserial primary key,
@@ -41,21 +31,22 @@ create table plant (
    	min_soil_moist int not null
 );
 
---changeset dmitriykosolobov:5
+--changeset dmitriykosolobov:4
 --comment: Create PlantInfo table
 create table plant_info (
     plant_id bigserial primary key references plant (plant_id) on delete cascade,
     info text not null
 );
 
---changeset dmitriykosolobov:6
+--changeset dmitriykosolobov:5
 --comment: Create Device table
 create table device (
     device_id bigserial primary key,
     device_key varchar(255) not null unique,
+    user_id bigint not null references user_account (user_id) on delete cascade
 );
 
---changeset dmitriykosolobov:7
+--changeset dmitriykosolobov:6
 --comment: Create Measure table
 create table measure (
     measure_id bigserial primary key,
@@ -66,4 +57,15 @@ create table measure (
     light_lux int not null,
     soil_moist int not null,
     battery_level numeric not null
+);
+
+--changeset dmitriykosolobov:7
+--comment: Create Pet table
+create table pet (
+    pet_id bigserial primary key,
+    name varchar(50) not null,
+    user_id bigint not null references user_account (user_id) on delete cascade,
+    plant_id bigint null references plant (plant_id),
+    device_id bigint null references device (device_id),
+    unique (name, user_id)
 );

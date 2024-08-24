@@ -11,10 +11,8 @@ import ru.petflower.domain.entity.Device;
 import ru.petflower.domain.entity.Measure;
 import ru.petflower.domain.entity.Plant;
 import ru.petflower.domain.entity.UserAccount;
-import ru.petflower.exception.ExistDeviceException;
-import ru.petflower.exception.NotFoundDeviceException;
-import ru.petflower.exception.NotFoundPlantException;
-import ru.petflower.exception.NotFoundUserException;
+import ru.petflower.exception.CustomException;
+import ru.petflower.exception.ErrorType;
 import ru.petflower.service.DeviceService;
 
 import java.util.Optional;
@@ -43,7 +41,7 @@ public class JpaDeviceService implements DeviceService {
         //добавить измерение
         Optional<Device> optionalDevice = jpaDeviceRepository.findByKey(key);
         if(optionalDevice.isEmpty()){
-            throw new NotFoundDeviceException();
+            throw new CustomException(ErrorType.NOT_FOUND_EXCEPTION, "Устройство не найдено");
         } else {
             Device device = optionalDevice.get();
             Measure measure = new Measure(addMeasureRequest);
