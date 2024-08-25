@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface JpaDeviceRepository extends JpaRepository<Device, Long> {
-    Optional<Device> findByKey(Long key);
+    Optional<Device> findByKey(String key);
 }

@@ -6,8 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.petflower.controller.dto.ErrorResponse;
-import ru.petflower.exception.*;
+import ru.petflower.controller.responses.ErrorResponse;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {

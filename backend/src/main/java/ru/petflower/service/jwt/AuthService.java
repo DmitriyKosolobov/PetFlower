@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-import ru.petflower.controller.dto.JwtLoginRequest;
-import ru.petflower.controller.dto.JwtRegisterRequest;
-import ru.petflower.controller.dto.JwtResponse;
+import ru.petflower.controller.requests.jwt.JwtLoginRequest;
+import ru.petflower.controller.requests.jwt.JwtRegisterRequest;
+import ru.petflower.controller.responses.jwt.JwtResponse;
 import ru.petflower.domain.jwt.JwtAuthentication;
 import ru.petflower.domain.jwt.User;
 import ru.petflower.exception.CustomException;
@@ -51,7 +51,7 @@ public class AuthService {
             throw new CustomException(ErrorType.REGISTRATION_EXCEPTION, "Пользователь c данным email уже зарегистрирован");
         }
         String hashedPassword = BCrypt.hashpw(registerRequest.password(), BCrypt.gensalt());
-        User user = userAccountService.register(registerRequest.login(), registerRequest.email(), hashedPassword);
+        User user = userAccountService.register(registerRequest.login(), registerRequest.email(), hashedPassword, null);
         String accessToken = jwtProvider.generateAccessToken(user);
         String refreshToken = jwtProvider.generateRefreshToken(user);
         refreshStorage.put(user.getLogin(), refreshToken);

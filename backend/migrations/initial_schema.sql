@@ -13,7 +13,7 @@ create table user_account (
 --comment: Create UserInfo table
 create table user_info (
     user_id bigserial primary key references user_account (user_id) on delete cascade,
-    info text not null
+    info text null
 );
 
 --changeset dmitriykosolobov:3
@@ -35,7 +35,7 @@ create table plant (
 --comment: Create PlantInfo table
 create table plant_info (
     plant_id bigserial primary key references plant (plant_id) on delete cascade,
-    info text not null
+    info text null
 );
 
 --changeset dmitriykosolobov:5

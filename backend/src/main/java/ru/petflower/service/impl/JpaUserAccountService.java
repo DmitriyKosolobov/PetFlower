@@ -1,8 +1,10 @@
 package ru.petflower.service.impl;
 
 import org.springframework.stereotype.Service;
+import ru.petflower.domain.JpaUserAccountInfoRepository;
 import ru.petflower.domain.JpaUserAccountRepository;
 import ru.petflower.domain.entity.UserAccount;
+import ru.petflower.domain.entity.UserAccountInfo;
 import ru.petflower.domain.jwt.Role;
 import ru.petflower.domain.jwt.User;
 import ru.petflower.service.UserAccountService;
@@ -14,14 +16,20 @@ import java.util.Optional;
 public class JpaUserAccountService implements UserAccountService {
 
     private final JpaUserAccountRepository jpaUserAccountRepository;
+    private final JpaUserAccountInfoRepository jpaUserAccountInfoRepository;
 
-    public JpaUserAccountService(JpaUserAccountRepository jpaUserAccountRepository) {
+    public JpaUserAccountService(JpaUserAccountRepository jpaUserAccountRepository,
+                                 JpaUserAccountInfoRepository jpaUserAccountInfoRepository) {
         this.jpaUserAccountRepository = jpaUserAccountRepository;
+        this.jpaUserAccountInfoRepository = jpaUserAccountInfoRepository;
     }
 
     @Override
-    public User register(String username, String email, String password) {
+    public User register(String username, String email, String password, String info) {
         UserAccount userAccount = new UserAccount(username, email, password);
+        UserAccountInfo userAccountInfo = new UserAccountInfo(info);
+        userAccount.addUserAccountInfo(userAccountInfo);
+        jpaUserAccountInfoRepository.save(userAccountInfo);
         jpaUserAccountRepository.save(userAccount);
         return new User(username,
                 password,
