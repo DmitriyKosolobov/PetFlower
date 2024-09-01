@@ -18,7 +18,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> argNotValidHandler(Exception ex) {
+    public ResponseEntity<?> argNotValidHandler(MethodArgumentNotValidException ex) {
         ErrorResponse errorResponse = new ErrorResponse(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Некорректные данные в запросе: " + ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }

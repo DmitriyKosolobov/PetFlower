@@ -15,7 +15,7 @@ public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "device_id")
+    @Column(name = "pet_id")
     private Long id;
 
     private String name;
@@ -31,4 +31,8 @@ public class Pet {
     @OneToOne
     @JoinColumn(name = "device_id")
     private Device device;
+
+    public Pet(String name) {
+        this.name = name;
+    }
 }

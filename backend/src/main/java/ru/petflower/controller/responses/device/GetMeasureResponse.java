@@ -2,7 +2,7 @@ package ru.petflower.controller.responses.device;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public record GetMeasureResponse (
 
@@ -12,18 +12,18 @@ public record GetMeasureResponse (
 		@JsonProperty(value = "device_id")
 		Long device_id,
 
-		LocalDateTime date,
+		OffsetDateTime date,
 
 		@JsonProperty(value = "light_lux")
-		Double lightLux,
+		Integer lightLux,
 
-		Double temp,
+		Integer temp,
 
 		@JsonProperty(value = "env_humid")
-		Double envHumid,
+		Integer envHumid,
 
 		@JsonProperty(value = "soil_moist")
-		Double soilMoist,
+		Integer soilMoist,
 
 		@JsonProperty(value = "battery_level")
 		Double batter_level

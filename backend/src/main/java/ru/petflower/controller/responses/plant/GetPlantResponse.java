@@ -11,27 +11,30 @@ public record GetPlantResponse (
 		String plantName,
 
 		@JsonProperty(value = "max_light_lux")
-		Double maxLightLux,
+		Integer maxLightLux,
 
 		@JsonProperty(value = "min_light_lux")
-		Double minLightLux,
+		Integer minLightLux,
 
 		@JsonProperty(value = "max_temp")
-		Double maxTemp,
+		Integer maxTemp,
 
 		@JsonProperty(value = "min_temp")
-		Double minTemp,
+		Integer minTemp,
 
 		@JsonProperty(value = "max_env_humid")
-		Double maxEnvHumid,
+		Integer maxEnvHumid,
 
 		@JsonProperty(value = "min_env_humid")
-		Double minEnvHumid,
+		Integer minEnvHumid,
 
 		@JsonProperty(value = "max_soil_moist")
-		Double maxSoilMoist,
+		Integer maxSoilMoist,
 
 		@JsonProperty(value = "min_soil_moist")
-		Double minSoilMoist
+		Integer minSoilMoist,
+
+		@JsonProperty(value = "plant_info")
+		String plantInfo
 ) {
 }

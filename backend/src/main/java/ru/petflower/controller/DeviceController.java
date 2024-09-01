@@ -1,5 +1,6 @@
 package ru.petflower.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +13,12 @@ import ru.petflower.service.jwt.AuthService;
 
 @RestController
 public class DeviceController {
-    public static final String API_PREFIX = "devices/";
+    public static final String API_PREFIX = "devices";
     public static final String GET_ALL_DEVICES = API_PREFIX;
-    public static final String GET_DEVICE = API_PREFIX + "{key}";
+    public static final String GET_DEVICE = API_PREFIX + "/{key}";
     public static final String POST_DEVICE = API_PREFIX;
-    public static final String DELETE_DEVICE = API_PREFIX + "{key}";
-    public static final String POST_MEASURE = API_PREFIX + "{key}/measure";
+    public static final String DELETE_DEVICE = API_PREFIX + "/{key}";
+    public static final String POST_MEASURE = API_PREFIX + "/{key}/measure";
 
     private final DeviceService deviceService;
     private final AuthService authService;
@@ -42,7 +43,7 @@ public class DeviceController {
     }
 
     @PostMapping(POST_DEVICE)
-    public ResponseEntity<DeviceResponse> addDevice(@RequestBody AddDeviceRequest addDeviceRequest) {
+    public ResponseEntity<DeviceResponse> addDevice(@RequestBody @Valid AddDeviceRequest addDeviceRequest) {
         String username = (String) authService.getAuthInfo().getPrincipal();
         DeviceResponse response = deviceService.registerDevice(username, addDeviceRequest);
         return ResponseEntity.ok(response);

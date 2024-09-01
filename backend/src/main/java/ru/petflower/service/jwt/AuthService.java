@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import ru.petflower.controller.requests.jwt.JwtLoginRequest;
 import ru.petflower.controller.requests.jwt.JwtRegisterRequest;
 import ru.petflower.controller.responses.jwt.JwtResponse;
+import ru.petflower.controller.responses.userAccount.PutUserAccountRequest;
+import ru.petflower.controller.responses.userAccount.UserAccountResponse;
 import ru.petflower.domain.jwt.JwtAuthentication;
+import ru.petflower.domain.jwt.Role;
 import ru.petflower.domain.jwt.User;
 import ru.petflower.exception.CustomException;
 import ru.petflower.exception.ErrorType;
@@ -26,7 +29,7 @@ public class AuthService {
     private final UserAccountService userAccountService;
 
     //TODO : заменить на БД
-    private final Map<String, String> refreshStorage = new HashMap<>();
+    public static final Map<String, String> refreshStorage = new HashMap<>();
     private final JwtProvider jwtProvider;
 
     public JwtResponse login(@NonNull JwtLoginRequest loginRequest) {
@@ -56,6 +59,34 @@ public class AuthService {
         String refreshToken = jwtProvider.generateRefreshToken(user);
         refreshStorage.put(user.getLogin(), refreshToken);
         return new JwtResponse("Bearer", accessToken, refreshToken);
+    }
+
+    public UserAccountResponse unregister(@NonNull Long userId) {
+        JwtAuthentication jwtAuthentication = this.getAuthInfo();
+        boolean isAdmin = jwtAuthentication.getRoles().contains(Role.ADMIN);
+        if(!jwtAuthentication.getUserId().equals(userId) && !isAdmin) {
+            throw new CustomException(ErrorType.AUTH_EXCEPTION, "Недостаточно прав для удаления данного пользователя");
+        }
+        UserAccountResponse response = userAccountService.unregister(userId);
+        refreshStorage.remove(response.username());
+        return response;
+    }
+
+    public JwtResponse changeUserInfo(Long userId, PutUserAccountRequest request) {
+        JwtAuthentication jwtAuthentication = this.getAuthInfo();
+        boolean isAdmin = jwtAuthentication.getRoles().contains(Role.ADMIN);
+        if(!jwtAuthentication.getUserId().equals(userId) && !isAdmin) {
+            throw new CustomException(ErrorType.AUTH_EXCEPTION, "Недостаточно прав для изменения информации данного пользователя");
+        }
+        User user = userAccountService.changeUserInfo(userId, request);
+        String newAccessToken = jwtProvider.generateAccessToken(user);
+        String newRefreshToken = jwtProvider.generateRefreshToken(user);
+        refreshStorage.put(user.getLogin(), newRefreshToken);
+        return new JwtResponse("Bearer", newAccessToken, newRefreshToken);
+    }
+
+    public static void removeTokenFromRefreshStorage(String login) {
+        refreshStorage.remove(login);
     }
 
     public JwtResponse getAccessToken(@NonNull String refreshToken) {
@@ -92,6 +123,10 @@ public class AuthService {
 
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    public void setAuthInfo(JwtAuthentication jwtAuthentication) {
+        SecurityContextHolder.getContext().setAuthentication(jwtAuthentication);
     }
 
 }

@@ -1,1 +1,991 @@
-{"openapi":"3.0.1","info":{"title":"OpenAPI definition","version":"v0"},"servers":[{"url":"http://localhost:8080","description":"Generated server url"}],"paths":{"/user/{user_id}":{"get":{"tags":["user-controller"],"operationId":"getUserAccountInfo","parameters":[{"name":"user_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/UserAccountResponse"}}}}}},"put":{"tags":["user-controller"],"operationId":"changeUserAccountInfo","parameters":[{"name":"user_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PutUserAccountRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/UserAccountResponse"}}}}}},"delete":{"tags":["user-controller"],"operationId":"deleteUserAccount","parameters":[{"name":"user_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/UserAccountResponse"}}}}}}},"/pets/{pet_id}":{"get":{"tags":["pet-controller"],"operationId":"getFullPetInfo","parameters":[{"name":"pet_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/GetFullPetInfo"}}}}}},"put":{"tags":["pet-controller"],"operationId":"changePet","parameters":[{"name":"pet_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PostPetRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/PostPetResponse"}}}}}},"delete":{"tags":["pet-controller"],"operationId":"deletePet","parameters":[{"name":"pet_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/DeletePetResponse"}}}}}}},"/pets/":{"get":{"tags":["pet-controller"],"operationId":"getPets","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/GetPetsResponse"}}}}}},"post":{"tags":["pet-controller"],"operationId":"addPet","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PostPetRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/PostPetResponse"}}}}}}},"/devices/{key}/measure":{"post":{"tags":["device-controller"],"operationId":"addMeasure","parameters":[{"name":"key","in":"path","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddMeasureRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/devices/":{"get":{"tags":["device-controller"],"operationId":"getAllDevices","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/GetAllDevicesResponse"}}}}}},"post":{"tags":["device-controller"],"operationId":"addDevice","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddDeviceRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/DeviceResponse"}}}}}}},"/auth/token":{"post":{"tags":["auth-controller"],"operationId":"getNewAccessToken","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshJwtRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/JwtResponse"}}}}}}},"/auth/register":{"post":{"tags":["auth-controller"],"operationId":"register","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/JwtRegisterRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/JwtResponse"}}}}}}},"/auth/refresh":{"post":{"tags":["auth-controller"],"operationId":"getNewRefreshToken","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RefreshJwtRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/JwtResponse"}}}}}}},"/auth/login":{"post":{"tags":["auth-controller"],"operationId":"login","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/JwtLoginRequest"}}},"required":true},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/JwtResponse"}}}}}}},"/plants/{plant_id}":{"get":{"tags":["plant-controller"],"operationId":"getPlant","parameters":[{"name":"plant_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/GetPlantResponse"}}}}}}},"/plants/":{"get":{"tags":["plant-controller"],"operationId":"getAllPlants","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/GetAllPlantsResponse"}}}}}}},"/pets/{pet_id}/measures":{"get":{"tags":["pet-controller"],"operationId":"getMeasures","parameters":[{"name":"pet_id","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/GetAllMeasuresResponse"}}}}}}},"/devices/{key}":{"get":{"tags":["device-controller"],"operationId":"getDevice","parameters":[{"name":"key","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/DeviceResponse"}}}}}},"delete":{"tags":["device-controller"],"operationId":"deleteDevice","parameters":[{"name":"key","in":"path","required":true,"schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/DeviceResponse"}}}}}}}},"components":{"schemas":{"PutUserAccountRequest":{"type":"object","properties":{"username":{"type":"string"},"email":{"type":"string"},"info":{"type":"string"}}},"UserAccountResponse":{"type":"object","properties":{"userId":{"type":"integer","format":"int64"},"username":{"type":"string"},"email":{"type":"string"},"info":{"type":"string"}}},"PostPetRequest":{"type":"object","properties":{"pet_name":{"type":"string"},"plant_id":{"type":"integer","format":"int64"},"device_id":{"type":"integer","format":"int64"}}},"PostPetResponse":{"type":"object","properties":{"pet_id":{"type":"integer","format":"int64"},"pet_name":{"type":"string"},"user_id":{"type":"integer","format":"int64"},"plant_id":{"type":"integer","format":"int64"},"device_id":{"type":"integer","format":"int64"}}},"AddMeasureRequest":{"type":"object","properties":{"temperature":{"type":"integer","format":"int32"},"humidity":{"type":"integer","format":"int32"},"light":{"type":"integer","format":"int32"},"moisture":{"type":"integer","format":"int32"},"battery":{"type":"number","format":"double"}}},"AddDeviceRequest":{"type":"object","properties":{"key":{"type":"string"}}},"DeviceResponse":{"type":"object","properties":{"deviceId":{"type":"integer","format":"int64"},"key":{"type":"string"},"userId":{"type":"integer","format":"int64"},"batteryLevel":{"type":"number","format":"double"}}},"RefreshJwtRequest":{"type":"object","properties":{"refreshToken":{"type":"string"}}},"JwtResponse":{"type":"object","properties":{"type":{"type":"string"},"accessToken":{"type":"string"},"refreshToken":{"type":"string"}}},"JwtRegisterRequest":{"type":"object","properties":{"login":{"maxLength":20,"minLength":4,"type":"string"},"email":{"type":"string"},"password":{"maxLength":2147483647,"minLength":8,"type":"string"}}},"JwtLoginRequest":{"type":"object","properties":{"login":{"type":"string"},"password":{"type":"string"}}},"GetPlantResponse":{"type":"object","properties":{"plant_id":{"type":"integer","format":"int64"},"plant_name":{"type":"string"},"max_light_lux":{"type":"number","format":"double"},"min_light_lux":{"type":"number","format":"double"},"max_temp":{"type":"number","format":"double"},"min_temp":{"type":"number","format":"double"},"max_env_humid":{"type":"number","format":"double"},"min_env_humid":{"type":"number","format":"double"},"max_soil_moist":{"type":"number","format":"double"},"min_soil_moist":{"type":"number","format":"double"}}},"GetAllPlantsResponse":{"type":"object","properties":{"plants_list":{"type":"array","items":{"$ref":"#/components/schemas/GetPlantResponse"}}}},"GetFullPetInfo":{"type":"object","properties":{"pet_id":{"type":"integer","format":"int64"},"pet_name":{"type":"string"},"plant_id":{"type":"integer","format":"int64"},"plant_name":{"type":"string"},"device_id":{"type":"integer","format":"int64"},"last_measure":{"$ref":"#/components/schemas/GetMeasureResponse"}}},"GetMeasureResponse":{"type":"object","properties":{"date":{"type":"string","format":"date-time"},"temp":{"type":"number","format":"double"},"measure_id":{"type":"integer","format":"int64"},"device_id":{"type":"integer","format":"int64"},"light_lux":{"type":"number","format":"double"},"env_humid":{"type":"number","format":"double"},"soil_moist":{"type":"number","format":"double"},"battery_level":{"type":"number","format":"double"}}},"GetAllMeasuresResponse":{"type":"object","properties":{"measures":{"type":"array","items":{"$ref":"#/components/schemas/GetMeasureResponse"}}}},"GetPetsResponse":{"type":"object","properties":{"pets":{"type":"array","items":{"$ref":"#/components/schemas/Pet"}}}},"Pet":{"type":"object","properties":{"plantKind":{"type":"string"},"condition":{"type":"string"},"pet_id":{"type":"integer","format":"int64"},"pet_name":{"type":"string"},"plant_name":{"type":"string"}}},"GetAllDevicesResponse":{"type":"object","properties":{"devices":{"type":"array","items":{"$ref":"#/components/schemas/DeviceResponse"}}}},"DeletePetResponse":{"type":"object","properties":{"pet_id":{"type":"integer","format":"int64"},"pet_name":{"type":"string"},"user_id":{"type":"integer","format":"int64"},"plant_id":{"type":"integer","format":"int64"},"device_id":{"type":"integer","format":"int64"}}}}}}
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI definition",
+    "version": "v0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/user/{user_id}": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getUserAccountInfo",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAccountResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "changeUserAccountInfo",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutUserAccountRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteUserAccount",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserAccountResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets/{pet_id}": {
+      "get": {
+        "tags": [
+          "pet-controller"
+        ],
+        "operationId": "getFullPetInfo",
+        "parameters": [
+          {
+            "name": "pet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFullPetInfo"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "pet-controller"
+        ],
+        "operationId": "changePet",
+        "parameters": [
+          {
+            "name": "pet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostPetResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "pet-controller"
+        ],
+        "operationId": "deletePet",
+        "parameters": [
+          {
+            "name": "pet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeletePetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets": {
+      "get": {
+        "tags": [
+          "pet-controller"
+        ],
+        "operationId": "getPets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPetsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "pet-controller"
+        ],
+        "operationId": "addPet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostPetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostPetResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices": {
+      "get": {
+        "tags": [
+          "device-controller"
+        ],
+        "operationId": "getAllDevices",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllDevicesResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "device-controller"
+        ],
+        "operationId": "addDevice",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddDeviceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/{key}/measure": {
+      "post": {
+        "tags": [
+          "device-controller"
+        ],
+        "operationId": "addMeasure",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMeasureRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/token": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "getNewAccessToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshJwtRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JwtRegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "getNewRefreshToken",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshJwtRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth-controller"
+        ],
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JwtLoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plants": {
+      "get": {
+        "tags": [
+          "plant-controller"
+        ],
+        "operationId": "getAllPlants",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllPlantsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/plants/{plant_id}": {
+      "get": {
+        "tags": [
+          "plant-controller"
+        ],
+        "operationId": "getPlant",
+        "parameters": [
+          {
+            "name": "plant_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlantResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets/{pet_id}/measures": {
+      "get": {
+        "tags": [
+          "pet-controller"
+        ],
+        "operationId": "getMeasures",
+        "parameters": [
+          {
+            "name": "pet_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllMeasuresResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/{key}": {
+      "get": {
+        "tags": [
+          "device-controller"
+        ],
+        "operationId": "getDevice",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "device-controller"
+        ],
+        "operationId": "deleteDevice",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PutUserAccountRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "info": {
+            "type": "string"
+          }
+        }
+      },
+      "JwtResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "PostPetRequest": {
+        "type": "object",
+        "properties": {
+          "pet_name": {
+            "type": "string"
+          },
+          "plant_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "device_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PostPetResponse": {
+        "type": "object",
+        "properties": {
+          "pet_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pet_name": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plant_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "device_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AddDeviceRequest": {
+        "required": [
+          "key"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          }
+        }
+      },
+      "DeviceResponse": {
+        "type": "object",
+        "properties": {
+          "deviceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "key": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "batteryLevel": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "AddMeasureRequest": {
+        "type": "object",
+        "properties": {
+          "temperature": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "humidity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "light": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "moisture": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "battery": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "RefreshJwtRequest": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        }
+      },
+      "JwtRegisterRequest": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "maxLength": 20,
+            "minLength": 4,
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 2147483647,
+            "minLength": 8,
+            "type": "string"
+          }
+        }
+      },
+      "JwtLoginRequest": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserAccountResponse": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "info": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAllPlantsResponse": {
+        "type": "object",
+        "properties": {
+          "plants_list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPlantResponse"
+            }
+          }
+        }
+      },
+      "GetPlantResponse": {
+        "type": "object",
+        "properties": {
+          "plant_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plant_name": {
+            "type": "string"
+          },
+          "max_light_lux": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "min_light_lux": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max_temp": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "min_temp": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max_env_humid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "min_env_humid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max_soil_moist": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "min_soil_moist": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "plant_info": {
+            "type": "string"
+          }
+        }
+      },
+      "GetPetsResponse": {
+        "type": "object",
+        "properties": {
+          "pets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PetResponse"
+            }
+          }
+        }
+      },
+      "PetResponse": {
+        "type": "object",
+        "properties": {
+          "plantKind": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "pet_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pet_name": {
+            "type": "string"
+          },
+          "plant_name": {
+            "type": "string"
+          }
+        }
+      },
+      "GetFullPetInfo": {
+        "type": "object",
+        "properties": {
+          "pet_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pet_name": {
+            "type": "string"
+          },
+          "plant_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plant_name": {
+            "type": "string"
+          },
+          "device_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "last_measure": {
+            "$ref": "#/components/schemas/GetMeasureResponse"
+          }
+        }
+      },
+      "GetMeasureResponse": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "temp": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "measure_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "device_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "light_lux": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "env_humid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "soil_moist": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "battery_level": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "GetAllMeasuresResponse": {
+        "type": "object",
+        "properties": {
+          "measures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetMeasureResponse"
+            }
+          }
+        }
+      },
+      "GetAllDevicesResponse": {
+        "type": "object",
+        "properties": {
+          "devices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeviceResponse"
+            }
+          }
+        }
+      },
+      "DeletePetResponse": {
+        "type": "object",
+        "properties": {
+          "pet_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pet_name": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "plant_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "device_id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    }
+  }
+}

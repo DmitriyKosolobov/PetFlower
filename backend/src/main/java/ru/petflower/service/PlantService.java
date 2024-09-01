@@ -1,14 +1,12 @@
 package ru.petflower.service;
 
-import ru.petflower.domain.entity.Pet;
-import ru.petflower.domain.entity.Plant;
-
-import java.util.Optional;
+import ru.petflower.controller.responses.plant.GetAllPlantsResponse;
+import ru.petflower.controller.responses.plant.GetPlantResponse;
 
 public interface PlantService {
-    void addPlant();
-    void changePlant();
-    void deletePlant();
-    Optional<Plant> getPlant();
-    Optional<Plant> getPlantInfo();
+//    void addPlant();
+//    void changePlant();
+//    void deletePlant();
+    GetPlantResponse getPlant(Long plantId);
+    GetAllPlantsResponse getAllPlants();
 }

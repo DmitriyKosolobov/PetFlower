@@ -1,6 +1,8 @@
 package ru.petflower.controller.requests.device;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public record AddDeviceRequest (
-    String key
+    @NotEmpty String key
 ) {
 }
