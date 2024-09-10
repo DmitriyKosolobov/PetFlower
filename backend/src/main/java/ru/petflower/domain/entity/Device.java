@@ -21,7 +21,11 @@ public class Device {
     private Long id;
 
     @Column(name = "device_key")
-    private Long key;
+    private String key;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserAccount userAccount;
 
     @OneToMany(mappedBy = "device")
     private List<Measure> measures = new ArrayList<>();
@@ -29,7 +33,7 @@ public class Device {
     @OneToOne(mappedBy = "device")
     private Pet pet;
 
-    public Device(Long key) {
+    public Device(String key) {
         this.key = key;
     }
 

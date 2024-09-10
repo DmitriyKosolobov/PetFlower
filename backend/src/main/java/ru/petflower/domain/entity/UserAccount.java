@@ -29,6 +29,9 @@ public class UserAccount {
     @OneToMany(mappedBy = "userAccount")
     private List<Pet> pets = new ArrayList<>();
 
+    @OneToMany(mappedBy = "userAccount")
+    private List<Device> devices = new ArrayList<>();
+
     @OneToOne(mappedBy = "userAccount")
     private UserAccountInfo userAccountInfo;
 
@@ -46,6 +49,16 @@ public class UserAccount {
     public void removePet(Pet pet) {
         this.pets.remove(pet);
         pet.setUserAccount(null);
+    }
+
+    public void addDevice(Device device) {
+        this.devices.add(device);
+        device.setUserAccount(this);
+    }
+
+    public void removeDevice(Device device) {
+        this.devices.remove(device);
+        device.setUserAccount(null);
     }
 
     public void addUserAccountInfo(UserAccountInfo userAccountInfo) {

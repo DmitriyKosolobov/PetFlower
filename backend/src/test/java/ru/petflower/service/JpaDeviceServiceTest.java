@@ -1,22 +1,14 @@
 package ru.petflower.service;
 
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 import ru.petflower.IntegrationTest;
 //import ru.petflower.controller.dto.AddDeviceRequest;
-import ru.petflower.controller.dto.AddMeasureRequest;
 import ru.petflower.domain.JpaDeviceRepository;
 import ru.petflower.domain.JpaPlantRepository;
 import ru.petflower.domain.JpaUserAccountRepository;
-import ru.petflower.domain.entity.Device;
-import ru.petflower.domain.entity.Plant;
-import ru.petflower.domain.entity.UserAccount;
-import java.util.List;
+import ru.petflower.service.impl.JpaDeviceService;
 
 @SpringBootTest
 public class JpaDeviceServiceTest extends IntegrationTest {

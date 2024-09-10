@@ -13,14 +13,17 @@ import lombok.Setter;
 public class UserAccountInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
     private String info;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_id")
     private UserAccount userAccount;
 
+    public UserAccountInfo(String info) {
+        this.info = info;
+    }
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.petflower.controller.dto.AddMeasureRequest;
+import ru.petflower.controller.requests.device.AddMeasureRequest;
 
 import java.time.OffsetDateTime;
 
