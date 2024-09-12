@@ -5,7 +5,7 @@
 create table user_account (
     user_id bigserial primary key,
     username varchar(20) not null unique,
-    email varchar(20) not null unique,
+    email varchar(255) not null unique,
     password varchar(255) not null
 );
 
