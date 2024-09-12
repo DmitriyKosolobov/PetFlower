@@ -1,0 +1,56 @@
+services:
+  petflower-app:
+    image: ghcr.io/dmitriykosolobov/petflower:latest
+    depends_on:
+      - postgresql
+      - liquibase-migrations
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      JWT_ACCESS: ${JWT_ACCESS}
+      JWT_REFRESH: ${JWT_REFRESH}
+    networks:
+      - backend
+
+  postgresql:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  liquibase-migrations:
+    build:
+      context: https://github.com/DmitriyKosolobov/PetFlower.git
+      dockerfile: backend/liquibase.Dockerfile
+    depends_on:
+      - postgresql
+    environment:
+      LIQUIBASE_URL: ${LIQUIBASE_URL}
+      LIQUIBASE_USERNAME: ${LIQUIBASE_USERNAME}
+      LIQUIBASE_PASSWORD: ${LIQUIBASE_PASSWORD}
+    command:
+      - --changelog-file=master.xml
+      - --driver=org.postgresql.Driver
+      - --url=${LIQUIBASE_URL}
+      - --username=${LIQUIBASE_USERNAME}
+      - --password=${LIQUIBASE_PASSWORD}
+      - update
+    networks:
+      - backend
+
+volumes:
+  postgresql: { }
+
+networks:
+  backend: { }
+
