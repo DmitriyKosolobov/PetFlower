@@ -29,6 +29,7 @@ jobs:
           cache: maven
 
       - name: maven build
+        working-directory: ./backend
         run: mvn -pl petflower -am package
 
       - id: jacoco
@@ -75,7 +76,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - run: mvn -pl petflower -am checkstyle:check
+      - working-directory: ./backend
+        run: mvn -pl petflower -am checkstyle:check
 
   integration-test:
     name: integration tests
@@ -89,4 +91,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - run: mvn -pl petflower -am verify -Dskip.unit.tests=true
+      - working-directory: ./backend
+        run: mvn -pl petflower -am verify -Dskip.unit.tests=true
