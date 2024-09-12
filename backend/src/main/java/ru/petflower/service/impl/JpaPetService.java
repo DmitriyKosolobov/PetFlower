@@ -118,10 +118,14 @@ public class JpaPetService implements PetService {
             if(optionalDevice.isEmpty()) {
                 throw new CustomException(ErrorType.NOT_FOUND_EXCEPTION, "Устройство не найдено");
             } else {
+                Device device = optionalDevice.get();
+                if(device.getPet() != null && device.getPet() != pet) {
+                    throw new CustomException(ErrorType.ALREADY_EXIST_EXCEPTION, "Устройство уже привязано к другому питомцу");
+                }
                 if(pet.getDevice() != null) {
                     pet.getDevice().removePet(pet);
                 }
-                optionalDevice.get().addPet(pet);
+                device.addPet(pet);
             }
         }
 
