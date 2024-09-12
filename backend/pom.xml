@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>ru.petflower</groupId>
 	<artifactId>petflower</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>petflower</name>
 	<description>Backend for PetFlower application</description>
 	<url/>
