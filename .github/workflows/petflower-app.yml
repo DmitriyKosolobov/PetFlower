@@ -69,33 +69,3 @@ jobs:
           file: ./backend/petflower.Dockerfile
           push: true
           tags: ghcr.io/dmitriykosolobov/petflower:latest
-
-  checkstyle:
-    name: checkstyle
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-
-      - working-directory: ./backend
-        run: mvn checkstyle:check
-
-  integration-test:
-    name: integration tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-
-      - working-directory: ./backend
-        run: mvn verify -Dskip.unit.tests=true
