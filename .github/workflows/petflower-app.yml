@@ -33,6 +33,8 @@ jobs:
             echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> $GITHUB_ENV
             echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
             echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+            echo "JWT_ACCESS=${{ secrets.JWT_ACCESS }}" >> $GITHUB_ENV
+            echo "JWT_REFRESH=${{ secrets.JWT_REFRESH }}" >> $GITHUB_ENV
 
       - name: maven build
         working-directory: ./backend
