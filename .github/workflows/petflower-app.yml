@@ -28,6 +28,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Set environment variables
+        run: |
+            echo "SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }}" >> $GITHUB_ENV
+            echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
+            echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
+
       - name: maven build
         working-directory: ./backend
         run: mvn package
