@@ -1,2 +1,2 @@
 FROM liquibase/liquibase:4.25
-COPY ./migrations /liquibase/changelog
+COPY backend/migrations /liquibase/changelog
