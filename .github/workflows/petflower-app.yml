@@ -35,6 +35,9 @@ jobs:
             echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
             echo "JWT_ACCESS=${{ secrets.JWT_ACCESS }}" >> $GITHUB_ENV
             echo "JWT_REFRESH=${{ secrets.JWT_REFRESH }}" >> $GITHUB_ENV
+            echo "ACCESS_LIFETIME_MINUTES=${{ secrets.ACCESS_LIFETIME_MINUTES }}" >> $GITHUB_ENV
+            echo "REFRESH_LIFETIME_DAYS=${{ secrets.REFRESH_LIFETIME_DAYS }}" >> $GITHUB_ENV
+            echo "MEASURES_DEVIATION=${{ secrets.MEASURES_DEVIATION }}" >> $GITHUB_ENV
 
       - name: maven build
         working-directory: ./backend
