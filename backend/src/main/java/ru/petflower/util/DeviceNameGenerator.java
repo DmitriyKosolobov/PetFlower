@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 @UtilityClass
-public class GenerateDeviceName {
+public class DeviceNameGenerator {
 
     private final List<String> adjectives = Arrays.asList(
             "Веселый", "Забавный", "Хитрый", "Смелый", "Ленивый", "Шустрый", "Загадочный", "Мудрый",

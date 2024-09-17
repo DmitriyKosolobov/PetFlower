@@ -11,6 +11,9 @@ spring:
 
 springdoc.swagger-ui.path: /swagger-ui
 
+logging:
+  config: classpath:log4j2-plain.xml
+
 jwt:
   access:
     lifetime: ${ACCESS_LIFETIME_MINUTES}
@@ -21,3 +24,9 @@ jwt:
 
 measures:
   deviation: ${MEASURES_DEVIATION}
+  battery:
+    max: ${BATTERY_MAX:2000}
+    min: ${BATTERY_MIN:1600}
+  moisture:
+    max: ${MOISTURE_MAX:1000}
+    min: ${MOISTURE_MIN:2400}

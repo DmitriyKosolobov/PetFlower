@@ -1,5 +1,6 @@
 package ru.petflower.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.petflower.controller.requests.device.AddDeviceRequest;
@@ -14,25 +15,21 @@ import ru.petflower.domain.entity.UserAccount;
 import ru.petflower.exception.CustomException;
 import ru.petflower.exception.ErrorType;
 import ru.petflower.service.DeviceService;
-import ru.petflower.util.GenerateDeviceName;
+import ru.petflower.util.DeviceNameGenerator;
+import ru.petflower.util.MeasuresConvertor;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class JpaDeviceService implements DeviceService {
 
     private final JpaDeviceRepository jpaDeviceRepository;
     private final JpaMeasureRepository jpaMeasureRepository;
     private final JpaUserAccountRepository jpaUserAccountRepository;
-
-    public JpaDeviceService(JpaDeviceRepository jpaDeviceRepository, JpaMeasureRepository jpaMeasureRepository,
-                            JpaUserAccountRepository jpaUserAccountRepository) {
-        this.jpaDeviceRepository = jpaDeviceRepository;
-        this.jpaMeasureRepository = jpaMeasureRepository;
-        this.jpaUserAccountRepository = jpaUserAccountRepository;
-    }
+    private final MeasuresConvertor measuresConvertor;
 
     @Override
     @Transactional
@@ -42,7 +39,8 @@ public class JpaDeviceService implements DeviceService {
             throw new CustomException(ErrorType.NOT_FOUND_EXCEPTION, "Устройство не найдено");
         } else {
             Device device = optionalDevice.get();
-            Measure measure = new Measure(addMeasureRequest);
+            AddMeasureRequest convertedMeasures = measuresConvertor.convertMeasures(addMeasureRequest);
+            Measure measure = new Measure(convertedMeasures);
             device.addMeasure(measure);
 
             //jpaDeviceRepository.save(device); //излишне
@@ -127,9 +125,9 @@ public class JpaDeviceService implements DeviceService {
         UserAccount userAccount = optionalUserAccount.get();
 
         List<String> deviceNames = userAccount.getDevices().stream().map(Device::getName).toList();
-        String deviceName = GenerateDeviceName.generateDeviceName();
+        String deviceName = DeviceNameGenerator.generateDeviceName();
         while (deviceNames.contains(deviceName)) {
-            deviceName = GenerateDeviceName.generateDeviceName();
+            deviceName = DeviceNameGenerator.generateDeviceName();
         }
         Device device = new Device(deviceName, addDeviceRequest.key());
         //device.addPet(pet);
