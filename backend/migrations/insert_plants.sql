@@ -231,10 +231,11 @@ INSERT INTO plant_info  (
 
 --comment: device
 INSERT INTO device (
-        device_id ,
+        device_id,
+        device_name,
         device_key,
         user_id)
-    VALUES (0001, 'petflower', 0001);
+    VALUES (0001, 'petflower', 'petflower', 0001);
 
 --comment: measure
 INSERT INTO measure (

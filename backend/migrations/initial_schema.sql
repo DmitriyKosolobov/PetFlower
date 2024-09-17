@@ -42,6 +42,7 @@ create table plant_info (
 --comment: Create Device table
 create table device (
     device_id bigserial primary key,
+    device_name varchar(255) not null,
     device_key varchar(255) not null unique,
     user_id bigint not null references user_account (user_id) on delete cascade
 );

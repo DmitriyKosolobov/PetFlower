@@ -20,6 +20,9 @@ public class Device {
     @Column(name = "device_id")
     private Long id;
 
+    @Column(name = "device_name")
+    private String name;
+
     @Column(name = "device_key")
     private String key;
 
@@ -33,7 +36,7 @@ public class Device {
     @OneToOne(mappedBy = "device")
     private Pet pet;
 
-    public Device(String key) {
+    public Device(String name, String key) {
         this.key = key;
     }
 

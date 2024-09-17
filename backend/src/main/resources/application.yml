@@ -12,6 +12,12 @@ spring:
 springdoc.swagger-ui.path: /swagger-ui
 
 jwt:
-  secret:
-    access: ${JWT_ACCESS}
-    refresh: ${JWT_REFRESH}
+  access:
+    lifetime: ${ACCESS_LIFETIME_MINUTES}
+    secret: ${JWT_ACCESS}
+  refresh:
+    lifetime: ${REFRESH_LIFETIME_DAYS}
+    secret: ${JWT_REFRESH}
+
+measures:
+  deviation: ${MEASURES_DEVIATION}
