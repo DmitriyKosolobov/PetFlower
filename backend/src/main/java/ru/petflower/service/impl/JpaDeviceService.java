@@ -14,6 +14,7 @@ import ru.petflower.domain.entity.UserAccount;
 import ru.petflower.exception.CustomException;
 import ru.petflower.exception.ErrorType;
 import ru.petflower.service.DeviceService;
+import ru.petflower.util.GenerateDeviceName;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,14 +26,12 @@ public class JpaDeviceService implements DeviceService {
     private final JpaDeviceRepository jpaDeviceRepository;
     private final JpaMeasureRepository jpaMeasureRepository;
     private final JpaUserAccountRepository jpaUserAccountRepository;
-    private final JpaPetRepository jpaPetRepository;
 
     public JpaDeviceService(JpaDeviceRepository jpaDeviceRepository, JpaMeasureRepository jpaMeasureRepository,
-                            JpaUserAccountRepository jpaUserAccountRepository, JpaPetRepository jpaPetRepository) {
+                            JpaUserAccountRepository jpaUserAccountRepository) {
         this.jpaDeviceRepository = jpaDeviceRepository;
         this.jpaMeasureRepository = jpaMeasureRepository;
         this.jpaUserAccountRepository = jpaUserAccountRepository;
-        this.jpaPetRepository = jpaPetRepository;
     }
 
     @Override
@@ -67,6 +66,7 @@ public class JpaDeviceService implements DeviceService {
                         }
                         return new DeviceResponse(
                                         device.getId(),
+                                        device.getName(),
                                         device.getKey(),
                                         device.getUserAccount().getId(),
                                         batteryLevel);
@@ -96,6 +96,7 @@ public class JpaDeviceService implements DeviceService {
                 }
                 return new DeviceResponse(
                         device.getId(),
+                        device.getName(),
                         device.getKey(),
                         device.getUserAccount().getId(),
                         batteryLevel
@@ -125,7 +126,12 @@ public class JpaDeviceService implements DeviceService {
 
         UserAccount userAccount = optionalUserAccount.get();
 
-        Device device = new Device(addDeviceRequest.key());
+        List<String> deviceNames = userAccount.getDevices().stream().map(Device::getName).toList();
+        String deviceName = GenerateDeviceName.generateDeviceName();
+        while (deviceNames.contains(deviceName)) {
+            deviceName = GenerateDeviceName.generateDeviceName();
+        }
+        Device device = new Device(deviceName, addDeviceRequest.key());
         //device.addPet(pet);
         userAccount.addDevice(device);
 
@@ -134,6 +140,7 @@ public class JpaDeviceService implements DeviceService {
         //jpaPlantRepository.save(plant); //излишне
         return new DeviceResponse(
                 device.getId(),
+                device.getName(),
                 device.getKey(),
                 device.getUserAccount().getId(),
                 null
@@ -158,6 +165,7 @@ public class JpaDeviceService implements DeviceService {
         }
         DeviceResponse response = new DeviceResponse(
                 device.getId(),
+                device.getName(),
                 device.getKey(),
                 device.getUserAccount().getId(),
                 batteryLevel

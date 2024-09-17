@@ -1,6 +1,7 @@
 package ru.petflower.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.petflower.controller.requests.pet.PostPetRequest;
@@ -29,6 +30,13 @@ public class JpaPetService implements PetService {
     private final JpaUserAccountRepository jpaUserAccountRepository;
     private final JpaDeviceRepository jpaDeviceRepository;
     private final JpaPlantRepository jpaPlantRepository;
+
+    private final String HAPPY_CONDITION = "happy";
+    private final String OK_CONDITION = "ok";
+    private final String SAD_CONDITION = "sad";
+
+    @Value("${measures.deviation}")
+    private Integer deviation;
 
     @Override
     @Transactional
@@ -279,11 +287,49 @@ public class JpaPetService implements PetService {
                                 pet.getName(),
                                 plant.map(Plant::getName).orElse(null),
                                 null,
-                                null
+                                determinePetCondition(pet)
                         );
                     })
                     .toList();
             return new GetPetsResponse(petResponses);
         }
+    }
+
+    private String determinePetCondition(Pet pet) {
+        Device device = pet.getDevice();
+        Plant plant = pet.getPlant();
+        if (plant == null || device == null || device.getMeasures().isEmpty()) {
+            return OK_CONDITION;
+        }
+        Measure lastMeasure = device.getMeasures().getLast();
+        if (
+                isWithinRange(lastMeasure.getLightLux(), plant.getMinLightLux(), plant.getMaxLightLux()) &&
+                isWithinRange(lastMeasure.getLightLux(), plant.getMinTemp(), plant.getMaxTemp()) &&
+                isWithinRange(lastMeasure.getLightLux(), plant.getMinEnvHumid(), plant.getMaxEnvHumid()) &&
+                isWithinRange(lastMeasure.getLightLux(), plant.getMinSoilMoist(), plant.getMaxSoilMoist())
+        ) {
+            return HAPPY_CONDITION;
+        }
+
+        if (
+                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinLightLux(), plant.getMaxLightLux()) &&
+                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinTemp(), plant.getMaxTemp()) &&
+                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinEnvHumid(), plant.getMaxEnvHumid()) &&
+                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinSoilMoist(), plant.getMaxSoilMoist())
+        ) {
+            return OK_CONDITION;
+        }
+
+        return SAD_CONDITION;
+    }
+
+    private boolean isWithinRange(int value, int min, int max) {
+        return value >= min && value <= max;
+    }
+
+    private boolean isSlightlyOutOfRange(int value, int min, int max) {
+        int lowerBound = min * (100 - deviation) / 100;
+        int upperBound = max * (100 + deviation) / 100;
+        return value >= lowerBound && value <= upperBound;
     }
 }
