@@ -37,6 +37,7 @@ public class Device {
     private Pet pet;
 
     public Device(String name, String key) {
+        this.name = name;
         this.key = key;
     }
 
