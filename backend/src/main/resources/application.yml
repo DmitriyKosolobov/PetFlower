@@ -1,3 +1,11 @@
+server:
+  port: 443
+  ssl:
+    key-store: ${KEY_STORE_PATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: tomcat
+
 spring:
   application:
     name: petflower

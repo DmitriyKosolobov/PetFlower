@@ -38,6 +38,8 @@ jobs:
             echo "ACCESS_LIFETIME_MINUTES=${{ secrets.ACCESS_LIFETIME_MINUTES }}" >> $GITHUB_ENV
             echo "REFRESH_LIFETIME_DAYS=${{ secrets.REFRESH_LIFETIME_DAYS }}" >> $GITHUB_ENV
             echo "MEASURES_DEVIATION=${{ secrets.MEASURES_DEVIATION }}" >> $GITHUB_ENV
+            echo "KEY_STORE_PASSWORD=${{ secrets.KEY_STORE_PASSWORD }}" >> $GITHUB_ENV
+            echo "KEY_STORE_PATH=${{ secrets.KEY_STORE_PATH }}" >> $GITHUB_ENV
 
       - name: maven build
         working-directory: ./backend
