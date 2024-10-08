@@ -73,4 +73,4 @@ jobs:
           context: .
           file: ./backend/petflower.Dockerfile
           push: true
-          tags: ghcr.io/dmitriykosolobov/petflower:latest
+          tags: ghcr.io/dmitriykosolobov/petflower:${{ github.ref_name }}-latest
