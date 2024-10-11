@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.petflower.controller.requests.pet.PostPetRequest;
 import ru.petflower.controller.responses.device.GetAllMeasuresResponse;
+import ru.petflower.controller.responses.device.GetAllSpecificTypeMeasuresResponse;
 import ru.petflower.controller.responses.device.GetMeasureResponse;
+import ru.petflower.controller.responses.device.GetSpecificTypeMeasureResponse;
 import ru.petflower.controller.responses.pet.*;
 import ru.petflower.domain.JpaDeviceRepository;
 import ru.petflower.domain.JpaPetRepository;
 import ru.petflower.domain.JpaPlantRepository;
 import ru.petflower.domain.JpaUserAccountRepository;
 import ru.petflower.domain.entity.*;
+import ru.petflower.enums.MeasureType;
 import ru.petflower.exception.CustomException;
 import ru.petflower.exception.ErrorType;
 import ru.petflower.service.PetService;
@@ -34,6 +37,7 @@ public class JpaPetService implements PetService {
     private final String HAPPY_CONDITION = "happy";
     private final String OK_CONDITION = "ok";
     private final String SAD_CONDITION = "sad";
+    private final Integer sizeOfMeasuresList = 20;
 
     @Value("${measures.deviation}")
     private Integer deviation;
@@ -196,7 +200,7 @@ public class JpaPetService implements PetService {
     }
 
     @Override
-    public GetAllMeasuresResponse getMeasures(String username, Long petId) {
+    public GetAllMeasuresResponse getMeasures(String username, Long petId, Integer size) {
         Optional<UserAccount> optionalUserAccount = jpaUserAccountRepository.findByUsername(username);
         if(optionalUserAccount.isEmpty()) {
             throw new CustomException(ErrorType.NOT_FOUND_EXCEPTION, "Пользователь не найден");
@@ -211,8 +215,29 @@ public class JpaPetService implements PetService {
         }
         Pet pet = pets.getFirst();
         Optional<Device> optionalDevice = Optional.ofNullable(pet.getDevice());
-        GetAllMeasuresResponse measuresResponse = getAllMeasuresResponse(optionalDevice);
+        GetAllMeasuresResponse measuresResponse = getAllMeasuresResponse(optionalDevice, size);
         return Objects.requireNonNullElseGet(measuresResponse, () -> new GetAllMeasuresResponse(new ArrayList<>()));
+    }
+
+    @Override
+    public GetAllSpecificTypeMeasuresResponse getSpecificTypeMeasures(String username, Long petId,
+                                                                      Integer size, MeasureType measureType) {
+        Optional<UserAccount> optionalUserAccount = jpaUserAccountRepository.findByUsername(username);
+        if(optionalUserAccount.isEmpty()) {
+            throw new CustomException(ErrorType.NOT_FOUND_EXCEPTION, "Пользователь не найден");
+        }
+
+        UserAccount userAccount = optionalUserAccount.get();
+        List<Pet> pets = userAccount.getPets().stream()
+                .filter(pet -> pet.getId().equals(petId))
+                .toList();
+        if(pets.isEmpty()) {
+            throw new CustomException(ErrorType.NOT_FOUND_EXCEPTION, "Питомец не найден");
+        }
+        Pet pet = pets.getFirst();
+        Optional<Device> optionalDevice = Optional.ofNullable(pet.getDevice());
+        GetAllSpecificTypeMeasuresResponse measuresResponse = getAllSpecificTypeMeasuresResponse(optionalDevice, measureType, size);
+        return Objects.requireNonNullElseGet(measuresResponse, () -> new GetAllSpecificTypeMeasuresResponse(new ArrayList<>()));
     }
 
     @Override
@@ -231,7 +256,7 @@ public class JpaPetService implements PetService {
                 Pet pet = pets.getFirst();
                 Optional<Plant> plant = Optional.ofNullable(pet.getPlant());
                 Optional<Device> device = Optional.ofNullable(pet.getDevice());
-                GetAllMeasuresResponse allMeasuresResponse = getAllMeasuresResponse(device);
+                GetAllMeasuresResponse allMeasuresResponse = getAllMeasuresResponse(device, sizeOfMeasuresList);
                 GetMeasureResponse measureResponse;
                 if(allMeasuresResponse == null) {
                     measureResponse = null;
@@ -250,9 +275,11 @@ public class JpaPetService implements PetService {
         }
     }
 
-    private GetAllMeasuresResponse getAllMeasuresResponse(Optional<Device> device) {
+    private GetAllMeasuresResponse getAllMeasuresResponse(Optional<Device> device, Integer size) {
         if(device.isPresent() && !device.get().getMeasures().isEmpty()) {
             List<GetMeasureResponse> measureResponses = device.get().getMeasures()
+                    .reversed()
+                    .subList(0, size)
                     .stream()
                     .map(measure -> new GetMeasureResponse(
                             measure.getId(),
@@ -264,8 +291,41 @@ public class JpaPetService implements PetService {
                             measure.getSoilMoist(),
                             measure.getBatteryLevel()
                     ))
-                    .toList();
+                    .toList()
+                    .reversed();
             return new GetAllMeasuresResponse(measureResponses);
+        } else {
+            return null;
+        }
+    }
+
+    private GetAllSpecificTypeMeasuresResponse getAllSpecificTypeMeasuresResponse(Optional<Device> device,
+                                                                                  MeasureType measureType,
+                                                                                  Integer size) {
+        if(device.isPresent() && !device.get().getMeasures().isEmpty()) {
+            List<GetSpecificTypeMeasureResponse> measureResponses = device.get().getMeasures()
+                    .reversed()
+                    .subList(0, size)
+                    .stream()
+                    .map(measure -> {
+                        Integer measureValue = null;
+                        switch (measureType) {
+                            case TEMPERATURE -> measureValue = measure.getTemp();
+                            case LIGHT -> measureValue = measure.getLightLux();
+                            case MOISTURE -> measureValue = measure.getSoilMoist();
+                            case HUMIDITY -> measureValue = measure.getEnvHumid();
+                            case BATTERY -> measureValue = measure.getBatteryLevel().intValue();
+                        }
+                        return new GetSpecificTypeMeasureResponse(
+                                measure.getId(),
+                                measure.getDevice().getId(),
+                                measure.getCheckTime(),
+                                measureValue
+                        );
+                    })
+                    .toList()
+                    .reversed();
+            return new GetAllSpecificTypeMeasuresResponse(measureResponses);
         } else {
             return null;
         }

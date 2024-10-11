@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "https://localhost",
       "description": "Generated server url"
     }
   ],
@@ -531,6 +531,24 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "measure_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
           }
         ],
         "responses": {
@@ -539,7 +557,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAllMeasuresResponse"
+                  "type": "object"
                 }
               }
             }
@@ -693,6 +711,9 @@
           "deviceId": {
             "type": "integer",
             "format": "int64"
+          },
+          "deviceName": {
+            "type": "string"
           },
           "key": {
             "type": "string"
@@ -937,17 +958,6 @@
           "battery_level": {
             "type": "number",
             "format": "double"
-          }
-        }
-      },
-      "GetAllMeasuresResponse": {
-        "type": "object",
-        "properties": {
-          "measures": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetMeasureResponse"
-            }
           }
         }
       },

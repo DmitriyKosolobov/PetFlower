@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.petflower.controller.requests.pet.PostPetRequest;
 import ru.petflower.controller.responses.device.GetAllMeasuresResponse;
+import ru.petflower.controller.responses.device.GetAllSpecificTypeMeasuresResponse;
 import ru.petflower.controller.responses.pet.DeletePetResponse;
 import ru.petflower.controller.responses.pet.GetFullPetInfo;
 import ru.petflower.controller.responses.pet.GetPetsResponse;
 import ru.petflower.controller.responses.pet.PostPetResponse;
+import ru.petflower.enums.MeasureType;
 import ru.petflower.service.PetService;
 import ru.petflower.service.jwt.AuthService;
 
@@ -64,9 +66,21 @@ public class PetController {
 	}
 
 	@GetMapping(GET_MEASURES)
-	public ResponseEntity<GetAllMeasuresResponse> getMeasures(@PathVariable("pet_id") Long petId) {
+	public ResponseEntity<?> getMeasures(
+			@PathVariable("pet_id") Long petId,
+			@RequestParam(value = "measure_type", required = false) String measureType,
+			@RequestParam(value = "size", required = false, defaultValue = "20") Integer size
+	) {
 		String username = (String) authService.getAuthInfo().getPrincipal();
-		GetAllMeasuresResponse response = petService.getMeasures(username, petId);
-		return ResponseEntity.ok(response);
+		if (measureType != null) {
+			GetAllSpecificTypeMeasuresResponse response = petService.getSpecificTypeMeasures(
+					username, petId, size,
+					MeasureType.valueOf(measureType.toUpperCase())
+			);
+			return ResponseEntity.ok(response);
+		} else {
+			GetAllMeasuresResponse response = petService.getMeasures(username, petId, size);
+			return ResponseEntity.ok(response);
+		}
 	}
 }
