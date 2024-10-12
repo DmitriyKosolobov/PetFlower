@@ -364,18 +364,18 @@ public class JpaPetService implements PetService {
         Measure lastMeasure = device.getMeasures().getLast();
         if (
                 isWithinRange(lastMeasure.getLightLux(), plant.getMinLightLux(), plant.getMaxLightLux()) &&
-                isWithinRange(lastMeasure.getLightLux(), plant.getMinTemp(), plant.getMaxTemp()) &&
-                isWithinRange(lastMeasure.getLightLux(), plant.getMinEnvHumid(), plant.getMaxEnvHumid()) &&
-                isWithinRange(lastMeasure.getLightLux(), plant.getMinSoilMoist(), plant.getMaxSoilMoist())
+                isWithinRange(lastMeasure.getTemp(), plant.getMinTemp(), plant.getMaxTemp()) &&
+                isWithinRange(lastMeasure.getEnvHumid(), plant.getMinEnvHumid(), plant.getMaxEnvHumid()) &&
+                isWithinRange(lastMeasure.getSoilMoist(), plant.getMinSoilMoist(), plant.getMaxSoilMoist())
         ) {
             return HAPPY_CONDITION;
         }
 
         if (
                 isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinLightLux(), plant.getMaxLightLux()) &&
-                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinTemp(), plant.getMaxTemp()) &&
-                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinEnvHumid(), plant.getMaxEnvHumid()) &&
-                isSlightlyOutOfRange(lastMeasure.getLightLux(), plant.getMinSoilMoist(), plant.getMaxSoilMoist())
+                isSlightlyOutOfRange(lastMeasure.getTemp(), plant.getMinTemp(), plant.getMaxTemp()) &&
+                isSlightlyOutOfRange(lastMeasure.getEnvHumid(), plant.getMinEnvHumid(), plant.getMaxEnvHumid()) &&
+                isSlightlyOutOfRange(lastMeasure.getSoilMoist(), plant.getMinSoilMoist(), plant.getMaxSoilMoist())
         ) {
             return OK_CONDITION;
         }
