@@ -277,6 +277,7 @@ public class JpaPetService implements PetService {
 
     private GetAllMeasuresResponse getAllMeasuresResponse(Optional<Device> device, Integer size) {
         if(device.isPresent() && !device.get().getMeasures().isEmpty()) {
+            if (device.get().getMeasures().size() < size) size = device.get().getMeasures().size();
             List<GetMeasureResponse> measureResponses = device.get().getMeasures()
                     .reversed()
                     .subList(0, size)
@@ -303,6 +304,7 @@ public class JpaPetService implements PetService {
                                                                                   MeasureType measureType,
                                                                                   Integer size) {
         if(device.isPresent() && !device.get().getMeasures().isEmpty()) {
+            if (device.get().getMeasures().size() < size) size = device.get().getMeasures().size();
             List<GetSpecificTypeMeasureResponse> measureResponses = device.get().getMeasures()
                     .reversed()
                     .subList(0, size)
